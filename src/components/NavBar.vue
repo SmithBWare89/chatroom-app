@@ -30,8 +30,10 @@ export default {
     justify-content: space-between;
     align-items: center;
     background: #FFFFFF;
-    border-radius: 10px 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
     padding: 20px;
+    margin-bottom: 0 !important;
 }
 
 .userInfo {
