@@ -1,13 +1,22 @@
 <template>
-  <h3>Hello!</h3>
+  <div id="chat">
+    <h1>Hi</h1>
+  </div>
 </template>
 
 <script>
-// @ is an alias to /src
-
 export default {
   name: 'Welcome',
-  components: {
+  setup() {
+
   }
 }
 </script>
+
+<style scoped>
+  #chat {
+    background: #DBD4D3;
+    width: 100%;
+    height: 100%;
+  }
+</style>
