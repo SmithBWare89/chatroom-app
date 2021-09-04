@@ -1,8 +1,4 @@
 <template>
-  <!-- <div id="nav">
-    <router-link to="/">Welcome</router-link> |
-    <router-link to="/chatroom">Chatroom</router-link>
-  </div> -->
   <NavBar />
   <router-view/>
 </template>
