@@ -1,20 +1,21 @@
 <template>
-  <div v-for="user in loremLoop" :key="user.id">
-    <p>{{ user.username }}</p>
-    {{ user.comment}}
+  <div v-for="comment in data" :key="comment.id">
+    <p>{{ comment.username }}</p>
+    {{ comment.comment }}
   </div>
   <button @click="loremLoop">Seed Data</button>
 </template>
 
 <script>
-import { computed, ref } from "@vue/reactivity";
-import { LoremIpsum } from 'lorem-ipsum'
+import { ref } from "@vue/reactivity";
+import { LoremIpsum } from "lorem-ipsum";
+import { onMounted } from '@vue/runtime-core';
 
 export default {
   name: "Chatroom",
   setup() {
-    const data = ref([])
-    const uri = ref('http://localhost:3000/chats')
+    const data = ref([]);
+    const uri = ref("http://localhost:3000/chats");
     const newLorem = new LoremIpsum({
       sentencesPerParagraph: {
         max: 8,
@@ -38,32 +39,39 @@ export default {
       "YouTrippinCraig",
     ]);
 
-    const loremLoop = computed(async () => {
-      try {
-        
-        // for (let i = 0; i < 100; i++) {
-        //   const randomIndex = Math.floor(
-        //     Math.random() * (userArray.value.length - 1) + 1
-        //   );
-        //   const randomLength = Math.floor(Math.random() * (16 - 4) + 4);
-        //   const res = await fetch(uri.value, {
-        //     method: "POST",
-        //     headers: { "Content-Type": "application/json" },
-        //     body: JSON.stringify({
-        //       username: userArray.value[randomIndex],
-        //       comment: newLorem.generateSentences(randomLength),
-        //     }),
-        //   })
+    onMounted(() => {
+        (async () => {
+        try {
+          const dataPull = await fetch(uri.value);
+          const dataJson = await dataPull.json();
 
-        //   data.value = await res.json()
+          if (!dataJson.length) {
+            for (let i = 0; i < 100; i++) {
+              const randomIndex = Math.floor(
+                Math.random() * (userArray.value.length - 1) + 1
+              );
+              const randomLength = Math.floor(Math.random() * (5 - 2) + 2);
+              const res = await fetch(uri.value, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  username: userArray.value[randomIndex],
+                  comment: newLorem.generateSentences(randomLength),
+                }),
+              });
 
-        // }
-      } catch (error) {
-        console.log(error);
-      }
-    });
+              data.value.push(await res.json());
+            }
+          } else {
+            data.value = dataJson
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      })()
+    })
 
-    return {loremLoop, userArray, newLorem}
+    return { data };
   },
 };
 </script>
