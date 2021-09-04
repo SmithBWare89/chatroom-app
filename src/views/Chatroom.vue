@@ -1,5 +1,5 @@
 <template>
-  <div v-if="data.length">
+  <div class="chatroom">
     <ChatView :data="data" />
   </div>
 </template>
@@ -18,11 +18,11 @@ export default {
     const uri = ref("http://localhost:3000/chats");
     const newLorem = new LoremIpsum({
       sentencesPerParagraph: {
-        max: 8,
-        min: 4,
+        max: 2,
+        min: 1,
       },
       wordsPerSentence: {
-        max: 16,
+        max: 8,
         min: 4,
       },
     });
@@ -46,11 +46,11 @@ export default {
           const dataJson = await dataPull.json();
 
           if (!dataJson.length) {
-            for (let i = 0; i < 100; i++) {
+            for (let i = 0; i < 0; i++) {
               const randomIndex = Math.floor(
                 Math.random() * (userArray.value.length - 1) + 1
               );
-              const randomLength = Math.floor(Math.random() * (5 - 2) + 2);
+              const randomLength = Math.floor(Math.random() * 2);
               const res = await fetch(uri.value, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -77,4 +77,9 @@ export default {
 </script>
 
 <style>
+  .chatroom {
+    width: 100%;
+    height: 100%;
+    background: #EDE9E9;
+  }
 </style>

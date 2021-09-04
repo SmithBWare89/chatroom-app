@@ -1,6 +1,9 @@
 <template>
-    <div class="chatbox">
-        <h1>Hello!</h1>
+    <div id="chatView" v-for="comment in data" :key="comment.id">
+        <div class="chatContainer">
+            <span class="chatUsername">{{ comment.username }}</span>
+            <span class="chatComment">{{ comment.comment }}</span>
+        </div>
     </div>
 </template>
 
@@ -17,15 +20,28 @@ export default {
 </script>
 
 <style>
-    .chatbox {
-        width: 100%;
-        height: 100%;
-        background: #EDE9E9;
-        margin: 0 auto;
-        padding-top: 0;
+    #chatView {
+        padding-top: 10px;
+        margin: 0px 10px;
+        overflow-y: auto;
+    }
+    .chatContainer {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding-top: 2px;
+        padding-bottom: 2px;
+    }
+    .chatUsername {
+        font-size: 10px;
+        font-weight: 800;
     }
 
-    h1 {
-        margin: 0;
+    .chatComment {
+        font-size: 10px;
+        text-align: left;
+        margin-left: 5px;
+        width: 60%;
     }
 </style>
