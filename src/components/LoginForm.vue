@@ -70,21 +70,6 @@ input {
   outline: none;
 }
 
-#login button {
-  padding: 10px 20px;
-  border-radius: 6px 6px;
-  box-shadow: 2px 2px rgba(117, 119, 128, 0.5);
-  background: #61e5a5;
-  color: #ffffff;
-  border: none;
-  font-weight: 700;
-}
-
-#login button:hover {
-  background: #ffffff;
-  color: #61e5a5;
-}
-
 @media screen and (max-width: 575px) {
 }
 </style>
