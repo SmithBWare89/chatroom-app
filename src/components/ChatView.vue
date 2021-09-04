@@ -1,12 +1,18 @@
 <template>
-  <div>
-      <h1>Hello!</h1>
-  </div>
+    <div v-for="data in data" :key="data.username">
+        
+    </div>
 </template>
 
 <script>
 export default {
-    name: 'ChatView'
+    name: 'ChatView',
+    props: ['data'],
+    data() {
+        return {
+            
+        }
+    }
 }
 </script>
 

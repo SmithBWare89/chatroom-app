@@ -1,18 +1,18 @@
 <template>
-  <div v-for="comment in data" :key="comment.id">
-    <p>{{ comment.username }}</p>
-    {{ comment.comment }}
+  <div v-if="data.length">
+    <ChatView :data="data" />
   </div>
-  <button @click="loremLoop">Seed Data</button>
 </template>
 
 <script>
 import { ref } from "@vue/reactivity";
 import { LoremIpsum } from "lorem-ipsum";
 import { onMounted } from '@vue/runtime-core';
+import ChatView from '../components/ChatView.vue'
 
 export default {
   name: "Chatroom",
+  components: { ChatView },
   setup() {
     const data = ref([]);
     const uri = ref("http://localhost:3000/chats");
