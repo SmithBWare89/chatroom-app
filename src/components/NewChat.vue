@@ -18,6 +18,7 @@
 <script>
 import { ref } from "@vue/reactivity";
 import { watchEffect } from "@vue/runtime-core";
+
 export default {
   name: "NewChat",
   setup() {
@@ -30,7 +31,6 @@ export default {
 
     const sendComment = (e) => {
         e.preventDefault()
-        console.log(message.value)
         message.value = ''
     }
 
