@@ -19,7 +19,7 @@ export default {
 
 <style>
 #chatView {
-  padding: 5px 20px 15px 20px;
+  padding: 5px 20px 5px 20px;
   background: #ede9e9;
   max-height: 400px !important;
   overflow: auto;

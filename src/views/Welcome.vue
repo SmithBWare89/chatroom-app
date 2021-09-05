@@ -15,7 +15,6 @@ export default {
 
 <style scoped>
   #chat {
-    background: #DBD4D3;
     width: 100%;
     height: 100%;
   }
