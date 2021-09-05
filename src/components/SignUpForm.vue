@@ -21,9 +21,8 @@
           placeholder="password" 
           required 
         />
-        <div>
-          <button>Signup</button>
-        </div>
+        <div class="errorMessage"> {{ errorMessage }} </div>
+        <button>Signup</button>
       </form>
       <p>
         Already registered?
@@ -36,6 +35,7 @@
 <script>
 import { ref } from '@vue/reactivity';
 import useSignup from "../composables/signup";
+import { useRouter } from 'vue-router'
 
 export default {
   name: "SignUpForm",
@@ -44,11 +44,15 @@ export default {
     const displayName = ref("");
     const password = ref("");
     const email = ref("");
+    const router = useRouter();
 
     const { errorMessage, signup } = useSignup();
 
     const handleSubmit = async () => {
       await signup(email.value, password.value, displayName.value)
+      if (!errorMessage.value) {
+        router.push({ name: 'Chatroom' })
+      }
     }
 
 
