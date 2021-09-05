@@ -14,7 +14,6 @@ const signup = async (email, password, displayName) => {
       throw new Error('Could not complete signup')
     }
     await res.user.updateProfile({ displayName })
-    console.log(res)
     error.value = null;
     
     return res

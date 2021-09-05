@@ -1,22 +1,21 @@
 <template>
   <div id="login">
     <h2>Login</h2>
-    <form @submit.prevent="">
+    <form @submit.prevent="handleLogin">
       <input
-        type="text"
-        v-model="username"
-        placeholder="email / display name"
+        type="email"
+        v-model="email"
+        placeholder="email"
         required
       />
       <input 
-        type="text" 
+        type="password" 
         v-model="password" 
         placeholder="password" 
         required 
       />
-      <div>
-        <button>Login</button>
-      </div>
+      <div class="errorMessage"> {{ errorMessage }} </div>
+      <button>Login</button>
     </form>
     <p>Not registered? <span class="switchForm" @click="switchForm">Sign Up!</span></p>
   </div>
@@ -24,14 +23,27 @@
 
 <script>
 import { ref } from "@vue/reactivity";
+import useLogin from '../composables/login'
+import { useRouter } from 'vue-router'
+
 export default {
   name: "LoginForm",
   props: ['switchForm'],
   setup() {
-    const username = ref("");
+    const email = ref("");
     const password = ref("");
+    const router = useRouter();
 
-    return { username, password };
+    const { errorMessage, login } = useLogin();
+
+    const handleLogin = async () => {
+      await login(email.value, password.value)
+      if (!errorMessage.value) {
+        router.push({ name: 'Chatroom' })
+      }
+    }
+
+    return { email, password, handleLogin, errorMessage };
   },
   methods: {
   }
@@ -73,6 +85,10 @@ input {
   outline: none;
 }
 
-@media screen and (max-width: 575px) {
+ 
+.errorMessage {
+  color: red;
+  font-size: 10px;
+  padding-bottom: 10px;
 }
 </style>

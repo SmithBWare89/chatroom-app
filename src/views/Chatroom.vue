@@ -1,4 +1,5 @@
 <template>
+    <NavBar />
     <ChatView :data="data" />
     <NewChat />
 </template>
@@ -9,10 +10,11 @@ import { LoremIpsum } from "lorem-ipsum";
 import { onMounted } from '@vue/runtime-core';
 import ChatView from '../components/ChatView.vue'
 import NewChat from '../components/NewChat.vue'
+import NavBar from '../components/NavBar.vue'
 
 export default {
   name: "Chatroom",
-  components: { ChatView, NewChat },
+  components: { ChatView, NewChat, NavBar },
   setup() {
     const data = ref([]);
     const uri = ref("http://localhost:3000/chats");
