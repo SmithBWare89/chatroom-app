@@ -1,5 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Welcome from '../views/Welcome.vue'
+import { projectAuth } from '../firebase/config'
+
+const requireAuth = (to, from, next) => {
+  // Grab the current user
+  const user = projectAuth.currentUser
+  if(!user) {
+    next({name: 'Welcome'})
+  }
+  next()
+}
 
 const routes = [
   {
@@ -13,23 +23,8 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/Chatroom.vue')
-  },
-  {
-    path: '/login',
-    name: 'LoginForm',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../components/LoginForm.vue')
-  },
-  {
-    path: '/signup',
-    name: 'SignUpForm',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../components/SignUpForm.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/Chatroom.vue'),
+    beforeEnter: requireAuth
   }
 ]
 

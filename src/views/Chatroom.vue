@@ -42,15 +42,6 @@ export default {
       "YouTrippinCraig",
     ]);
 
-    (async () => {
-      try {
-        const user = await projectAuth.onAuthStateChanged(projectAuth.currentUser)
-        console.log(user)
-      } catch (error) {
-        console.log(error)
-      }
-    })()
-
     // onMounted(() => {
     //     (async () => {
     //     try {
