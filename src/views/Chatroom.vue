@@ -1,6 +1,7 @@
 <template>
   <div class="chatroom">
     <ChatView :data="data" />
+    <NewChat />
   </div>
 </template>
 
@@ -9,10 +10,11 @@ import { ref } from "@vue/reactivity";
 import { LoremIpsum } from "lorem-ipsum";
 import { onMounted } from '@vue/runtime-core';
 import ChatView from '../components/ChatView.vue'
+import NewChat from '../components/NewChat.vue'
 
 export default {
   name: "Chatroom",
-  components: { ChatView },
+  components: { ChatView, NewChat },
   setup() {
     const data = ref([]);
     const uri = ref("http://localhost:3000/chats");
