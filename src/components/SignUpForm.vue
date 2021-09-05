@@ -1,45 +1,52 @@
 <template>
-  <div id="signup">
-    <h2>Sign Up</h2>
-    <form @submit.prevent="">
-      <input
-        type="text"
-        v-model="displayName"
-        placeholder="display name"
-        required
-      />
-      <input
-        type="text"
-        v-model="email"
-        placeholder="display name"
-        required
-      />
-      <input 
-        type="text" 
-        v-model="password" 
-        placeholder="password" 
-        required 
-      />
-      <div>
-        <button>Login</button>
-      </div>
-    </form>
-    <p>Already registered? <span class="switchForm" @click="emit('switch-form')">Login here!</span></p>
+  <div>
+    <div id="signup">
+      <h2>Sign Up</h2>
+      <form @submit.prevent="handleSignup(displayName, password, email)">
+        <input
+          type="text"
+          v-model="displayName"
+          placeholder="display name"
+          required
+        />
+        <input
+          type="text"
+          v-model="email"
+          placeholder="email"
+          required
+        />
+        <input type="text" v-model="password" placeholder="password" required />
+        <div>
+          <button>Signup</button>
+        </div>
+      </form>
+      <p>
+        Already registered?
+        <span class="switchForm" @click="switchForm">Login here!</span>
+      </p>
+    </div>
+  </div>
+  <div v-if="errorMessage.length">
+    <p>Error!</p>
   </div>
 </template>
 
 <script>
-import { ref } from "@vue/reactivity";
+import { watch } from '@vue/runtime-core';
+import signup from "../composables/signup";
 
 export default {
   name: "SignUpForm",
-  setup(props, {emit}) {
-    const displayName = ref("");
-    const password = ref("");
-    const email = ref("")
+  props: ['switchForm'],
+  setup() {
+    const { displayName, password, email, handleSignup, errorMessage, user } = signup();
 
-    return { displayName, password, email, emit };
+    watch(user, () => console.log(user))
+
+    return { displayName, password, email, handleSignup, errorMessage };
   },
+  method: {
+  }
 };
 </script>
 

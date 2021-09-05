@@ -1,9 +1,9 @@
 <template>
   <div v-if="login">
-    <LoginForm @switch-form="switchForm"/>
+    <LoginForm :switchForm="switchForm"/>
   </div>
   <div v-else>
-    <SignUpForm @switch-form="switchForm"/>
+    <SignUpForm :switchForm="switchForm"/>
   </div>
 </template>
 
@@ -17,9 +17,13 @@ export default {
   setup() {
     const login = ref(true)
 
-    const switchForm = () => login.value = !login.value
+    const switchForm = () => {
+      login.value = !login.value
+    }
 
     return { login, switchForm }
+  },
+  method: {
   }
 }
 </script>

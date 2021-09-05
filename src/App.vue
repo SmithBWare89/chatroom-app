@@ -31,7 +31,7 @@ body {
 }
 
 .app {
-  margin-top: 100px;
+  margin-top: 75px;
 }
 
 button {
