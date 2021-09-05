@@ -7,7 +7,7 @@
 <script>
 import { ref } from "@vue/reactivity"
 import { LoremIpsum } from "lorem-ipsum"
-import { onMounted } from '@vue/runtime-core'
+import { onMounted, watchEffect } from '@vue/runtime-core'
 import ChatView from '../components/ChatView.vue'
 import NewChat from '../components/NewChat.vue'
 import NavBar from '../components/NavBar.vue'
@@ -45,9 +45,7 @@ export default {
 
     onMounted(() => {
       handleGetUser()
-    })
-
-    
+    })    
 
     const userArray = ref([
       "TheMonkeyWA",
