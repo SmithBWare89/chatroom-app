@@ -5,12 +5,13 @@
 </template>
 
 <script>
-import { ref } from "@vue/reactivity";
-import { LoremIpsum } from "lorem-ipsum";
-import { onMounted } from '@vue/runtime-core';
+import { ref } from "@vue/reactivity"
+import { LoremIpsum } from "lorem-ipsum"
+import { onMounted } from '@vue/runtime-core'
 import ChatView from '../components/ChatView.vue'
 import NewChat from '../components/NewChat.vue'
 import NavBar from '../components/NavBar.vue'
+import { projectAuth } from '../firebase/config'
 
 export default {
   name: "Chatroom",
@@ -41,37 +42,46 @@ export default {
       "YouTrippinCraig",
     ]);
 
-    onMounted(() => {
-        (async () => {
-        try {
-          const dataPull = await fetch(uri.value);
-          const dataJson = await dataPull.json();
+    (async () => {
+      try {
+        const user = await projectAuth.onAuthStateChanged(projectAuth.currentUser)
+        console.log(user)
+      } catch (error) {
+        console.log(error)
+      }
+    })()
 
-          if (!dataJson.length) {
-            for (let i = 0; i < 0; i++) {
-              const randomIndex = Math.floor(
-                Math.random() * (userArray.value.length - 1) + 1
-              );
-              const randomLength = Math.floor(Math.random() * 2);
-              const res = await fetch(uri.value, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                  username: userArray.value[randomIndex],
-                  comment: newLorem.generateSentences(randomLength),
-                }),
-              });
+    // onMounted(() => {
+    //     (async () => {
+    //     try {
+    //       const dataPull = await fetch(uri.value);
+    //       const dataJson = await dataPull.json();
 
-              data.value.push(await res.json());
-            }
-          } else {
-            data.value = dataJson
-          }
-        } catch (error) {
-          console.log(error);
-        }
-      })()
-    })
+    //       if (!dataJson.length) {
+    //         for (let i = 0; i < 0; i++) {
+    //           const randomIndex = Math.floor(
+    //             Math.random() * (userArray.value.length - 1) + 1
+    //           );
+    //           const randomLength = Math.floor(Math.random() * 2);
+    //           const res = await fetch(uri.value, {
+    //             method: "POST",
+    //             headers: { "Content-Type": "application/json" },
+    //             body: JSON.stringify({
+    //               username: userArray.value[randomIndex],
+    //               comment: newLorem.generateSentences(randomLength),
+    //             }),
+    //           });
+
+    //           data.value.push(await res.json());
+    //         }
+    //       } else {
+    //         data.value = dataJson
+    //       }
+    //     } catch (error) {
+    //       console.log(error);
+    //     }
+    //   })()
+    // })
 
     return { data };
   },
