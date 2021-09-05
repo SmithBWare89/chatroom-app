@@ -5,15 +5,14 @@ import { projectAuth } from '../firebase/config';
 // they don't need to be re-created every time we invoke useSignup
 const error = ref(null);
 
-const signup = async (email, password, displayName) => {
+const login = async (email, password) => {
   error.value = null
 
   try {
-    const res = await projectAuth.createUserWithEmailAndPassword(email, password)
+    const res = await projectAuth.signInWithEmailAndPassword(email, password)
     if (!res) {
       throw new Error('Could not complete signup')
     }
-    await res.user.updateProfile({ displayName })
     console.log(res)
     error.value = null;
     
@@ -25,8 +24,8 @@ const signup = async (email, password, displayName) => {
   }
 }
 
-const useSignup = () => {
-  return { error, signup }
+const useLogin = () => {
+  return { error, login }
 }
 
-export default useSignup
+export default useLogin

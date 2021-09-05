@@ -2,7 +2,7 @@
   <div>
     <div id="signup">
       <h2>Sign Up</h2>
-      <form @submit.prevent="handleSignup(displayName, password, email)">
+      <form @submit.prevent="handleSubmit">
         <input
           type="text"
           v-model="displayName"
@@ -10,12 +10,17 @@
           required
         />
         <input
-          type="text"
+          type="email"
           v-model="email"
           placeholder="email"
           required
         />
-        <input type="text" v-model="password" placeholder="password" required />
+        <input 
+          type="password" 
+          v-model="password" 
+          placeholder="password" 
+          required 
+        />
         <div>
           <button>Signup</button>
         </div>
@@ -26,24 +31,28 @@
       </p>
     </div>
   </div>
-  <div v-if="errorMessage.length">
-    <p>Error!</p>
-  </div>
 </template>
 
 <script>
-import { watch } from '@vue/runtime-core';
-import signup from "../composables/signup";
+import { ref } from '@vue/reactivity';
+import useSignup from "../composables/signup";
 
 export default {
   name: "SignUpForm",
   props: ['switchForm'],
   setup() {
-    const { displayName, password, email, handleSignup, errorMessage, user } = signup();
+    const displayName = ref("");
+    const password = ref("");
+    const email = ref("");
 
-    watch(user, () => console.log(user))
+    const { errorMessage, signup } = useSignup();
 
-    return { displayName, password, email, handleSignup, errorMessage };
+    const handleSubmit = async () => {
+      await signup(email.value, password.value, displayName.value)
+    }
+
+
+    return { displayName, password, email, handleSubmit };
   },
   method: {
   }
