@@ -1,7 +1,7 @@
 <template>
   <div id="navContainer">
       <div class="userInfo">
-          <span class="name">Hey there {{ name }}</span>
+          <span class="name">Hey there, {{ name }}!</span>
           <span class="email">Currently logged in as {{ email }}</span>
       </div>
       <div>
@@ -12,11 +12,18 @@
 
 <script>
 import { ref } from '@vue/reactivity'
+import { watch, watchEffect } from '@vue/runtime-core'
 export default {
     name: 'NavBar',
-    setup() {
+    props:['currentUserInfo'],
+    setup(props) {
         const name = ref('')
         const email = ref('')
+
+        watchEffect(() => {
+            name.value = props.currentUserInfo.displayName,
+            email.value = props.currentUserInfo.email
+        }, props.currentUserInfo)
 
         return { name, email }
     }
