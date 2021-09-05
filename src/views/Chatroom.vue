@@ -46,7 +46,7 @@ export default {
           const dataJson = await dataPull.json();
 
           if (!dataJson.length) {
-            for (let i = 0; i < 0; i++) {
+            for (let i = 0; i < 30; i++) {
               const randomIndex = Math.floor(
                 Math.random() * (userArray.value.length - 1) + 1
               );
