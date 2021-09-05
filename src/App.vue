@@ -49,6 +49,11 @@ button:hover {
   color: #61e5a5;
 }
 
+.switchForm {
+  border-bottom: 1px solid #22181c;
+  cursor: pointer;
+}
+
 @media screen and (max-width: 600px) {
   button {
     padding: 10px 15px;

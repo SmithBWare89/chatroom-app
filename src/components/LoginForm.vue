@@ -18,7 +18,7 @@
         <button>Login</button>
       </div>
     </form>
-    <p>Not registered? Sign Up!</p>
+    <p>Not registered? <span class="switchForm" @click="emit('switch-form')">Sign Up!</span></p>
   </div>
 </template>
 
@@ -26,11 +26,11 @@
 import { ref } from "@vue/reactivity";
 export default {
   name: "LoginForm",
-  setup() {
+  setup(props, { emit }) {
     const username = ref("");
     const password = ref("");
 
-    return { username, password };
+    return { username, password, emit };
   },
 };
 </script>
