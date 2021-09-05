@@ -51,7 +51,7 @@ export default {
     const handleSubmit = async () => {
       await signup(email.value, password.value, displayName.value)
       if (errorMessage.value === null) {
-        router.push('/chatroom')
+        router.push({name: 'Chatroom'})
       }
     }
 

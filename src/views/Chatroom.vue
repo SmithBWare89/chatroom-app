@@ -36,7 +36,7 @@ export default {
     
     const handleGetUser = async () => {
       const retrievedUserInfo = await currentUser()
-      if (errorMessage) {
+      if (errorMessage.value) {
         router.push('/')
       }
       currentUserInfo.value = retrievedUserInfo
