@@ -20,7 +20,6 @@ export default {
   components: { ChatView, NewChat, NavBar },
   setup() {
     const data = ref([]);
-    const uri = ref("http://localhost:3000/chats");
     const newLorem = new LoremIpsum({
       sentencesPerParagraph: {
         max: 2,
@@ -37,7 +36,7 @@ export default {
     
     const handleGetUser = async () => {
       const retrievedUserInfo = await currentUser()
-      if (!retrievedUserInfo) {
+      if (errorMessage) {
         router.push('/')
       }
       currentUserInfo.value = retrievedUserInfo
