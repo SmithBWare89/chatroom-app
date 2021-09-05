@@ -1,5 +1,5 @@
 <template>
-    <NavBar />
+    <NavBar :currentUserInfo="currentUserInfo"/>
     <ChatView :data="data" />
     <NewChat />
 </template>
@@ -11,7 +11,9 @@ import { onMounted } from '@vue/runtime-core'
 import ChatView from '../components/ChatView.vue'
 import NewChat from '../components/NewChat.vue'
 import NavBar from '../components/NavBar.vue'
-import { projectAuth } from '../firebase/config'
+import getCurrentUser from '../composables/getCurrentUser'
+import { useRouter } from 'vue-router'
+
 
 export default {
   name: "Chatroom",
@@ -29,6 +31,23 @@ export default {
         min: 4,
       },
     });
+    const currentUserInfo = ref({})
+    const router = useRouter()
+    const { errorMessage, currentUser } = getCurrentUser();
+    
+    const handleGetUser = async () => {
+      const retrievedUserInfo = await currentUser()
+      if (!retrievedUserInfo) {
+        router.push('/')
+      }
+      currentUserInfo.value = retrievedUserInfo
+    }
+
+    onMounted(() => {
+      handleGetUser()
+    })
+
+    
 
     const userArray = ref([
       "TheMonkeyWA",
@@ -74,7 +93,7 @@ export default {
     //   })()
     // })
 
-    return { data };
+    return { data, currentUserInfo };
   },
 };
 </script>
