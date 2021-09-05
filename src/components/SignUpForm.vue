@@ -35,7 +35,7 @@
 <script>
 import { ref } from '@vue/reactivity';
 import useSignup from "../composables/signup";
-import { useRouter } from 'vue-router'
+import { useRouter } from 'vue-router';
 
 export default {
   name: "SignUpForm",
@@ -50,13 +50,13 @@ export default {
 
     const handleSubmit = async () => {
       await signup(email.value, password.value, displayName.value)
-      if (!errorMessage.value) {
-        router.push({ name: 'Chatroom' })
+      if (errorMessage.value === null) {
+        router.push('/chatroom')
       }
     }
 
 
-    return { displayName, password, email, handleSubmit };
+    return { displayName, password, email, handleSubmit, errorMessage };
   },
   method: {
   }

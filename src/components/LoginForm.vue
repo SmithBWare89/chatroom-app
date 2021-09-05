@@ -34,11 +34,11 @@ export default {
     const password = ref("");
     const router = useRouter();
 
-    const { errorMessage, login } = useLogin();
+    const { errorMessage, loginUser } = useLogin();
 
     const handleLogin = async () => {
-      await login(email.value, password.value)
-      if (!errorMessage.value) {
+      await loginUser(email.value, password.value)
+      if (errorMessage.value === null) {
         router.push({ name: 'Chatroom' })
       }
     }
