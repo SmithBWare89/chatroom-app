@@ -1,8 +1,6 @@
 <template>
-  <div class="chatroom">
     <ChatView :data="data" />
     <NewChat />
-  </div>
 </template>
 
 <script>
@@ -79,8 +77,5 @@ export default {
 </script>
 
 <style>
-  .chatroom {
-    width: 100%;
-    height: 100%;
-  }
+
 </style>
