@@ -44,7 +44,6 @@ export default {
     const displayName = ref("");
     const password = ref("");
     const email = ref("");
-    const router = useRouter();
 
     const { errorMessage, signup } = useSignup();
 
