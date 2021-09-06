@@ -18,12 +18,14 @@
 <script>
 import { ref } from "@vue/reactivity";
 import { watchEffect } from "@vue/runtime-core";
+import addNewMessage from '../composables/addNewMessage'
 
 export default {
   name: "NewChat",
   setup() {
     const charCount = ref(0);
     const message = ref("");
+    const { errorMessage, newMessage } = addNewMessage()
 
     watchEffect(() => {
       charCount.value = message.value.length;
@@ -31,6 +33,7 @@ export default {
 
     const sendComment = (e) => {
         e.preventDefault()
+        newMessage(message.value)
         message.value = ''
     }
 

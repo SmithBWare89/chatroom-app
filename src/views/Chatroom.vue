@@ -1,12 +1,12 @@
 <template>
-    <NavBar :currentUserInfo="currentUserInfo"/>
+    <NavBar :currentUserInfo ="currentUserInfo"/>
     <ChatView :data="data" />
     <NewChat />
 </template>
 
 <script>
 import { ref } from "@vue/reactivity"
-import { onMounted, watch, watchEffect } from '@vue/runtime-core'
+import { onMounted, watch } from '@vue/runtime-core'
 import ChatView from '../components/ChatView.vue'
 import NewChat from '../components/NewChat.vue'
 import NavBar from '../components/NavBar.vue'
@@ -17,7 +17,7 @@ import { useRouter } from 'vue-router'
 
 export default {
   name: "Chatroom",
-  components: { ChatView, NewChat, NavBar },
+  components: { NavBar, ChatView, NewChat },
   setup() {
     const data = ref([]);
     const currentUserInfo = ref({})
@@ -32,10 +32,11 @@ export default {
       }
       currentUserInfo.value = retrievedUserInfo
     }
-
+    
     watch(() => {
       data.value = sortedData.value
     }, sortedData)
+
 
     onMounted(async () => {
       await handleGetUser()

@@ -10,6 +10,7 @@ const currentUser = async () => {
             throw new Error('Cannot find the user information!')
         }
         return {displayName: userInfo.displayName, email: userInfo.email}
+
     } catch (error) {
         errorMessage.value = error.value
     }

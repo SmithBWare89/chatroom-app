@@ -1,6 +1,7 @@
 import { LoremIpsum } from "lorem-ipsum"
 import { ref } from "vue";
 import { projectFirestore, projectAuth, timestamp } from '../firebase/config'
+import getCurrentUser from '../composables/getCurrentUser'
 
 // Set Lorem Ipsum Parameters
 const newLorem = new LoremIpsum({
@@ -23,12 +24,13 @@ const error = ref(null)
 //  Lorem Ipsum Generator Function
 const getLorem = async () => {
     try {
-        // Get The Authenticated User
-        const user = projectAuth.currentUser
-
-        if(!user) {
-            throw new Error('Unable to authenticate user at this time.')
+        // Get the current user info
+        const { user, currentUser } = getCurrentUser()
+        await currentUser()      
+        if (!user.value) {
+            throw new Error('Unable to add message at this time. Please sign in again.')
         }
+
 
         for(let i = 0; i < 10; i++) {
             const randomIndex = Math.floor(Math.random() * (userArray.value.length - 0) + 1)

@@ -12,7 +12,7 @@
 
 <script>
 import { ref } from '@vue/reactivity'
-import { watch, watchEffect } from '@vue/runtime-core'
+import { watchEffect } from '@vue/runtime-core'
 export default {
     name: 'NavBar',
     props:['currentUserInfo'],
