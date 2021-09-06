@@ -40,7 +40,7 @@ import { useRouter } from 'vue-router';
 export default {
   name: "SignUpForm",
   props: ['switchForm'],
-  setup() {
+  setup(pros, { emit }) {
     const displayName = ref("");
     const password = ref("");
     const email = ref("");
@@ -50,8 +50,8 @@ export default {
 
     const handleSubmit = async () => {
       await signup(email.value, password.value, displayName.value)
-      if (errorMessage.value === null) {
-        router.push({name: 'Chatroom'})
+      if (!errorMessage.value) {
+        emit('signup')
       }
     }
 

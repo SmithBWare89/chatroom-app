@@ -29,7 +29,7 @@ import { useRouter } from 'vue-router'
 export default {
   name: "LoginForm",
   props: ['switchForm'],
-  setup() {
+  setup(props, { emit }) {
     const email = ref("");
     const password = ref("");
     const router = useRouter();
@@ -38,14 +38,12 @@ export default {
 
     const handleLogin = async () => {
       await loginUser(email.value, password.value)
-      if (errorMessage.value === null) {
-        router.push({ name: 'Chatroom' })
+      if (!errorMessage.value) {
+        emit('login')
       }
     }
 
     return { email, password, handleLogin, errorMessage };
-  },
-  methods: {
   }
 };
 </script>

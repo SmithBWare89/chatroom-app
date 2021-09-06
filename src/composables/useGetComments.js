@@ -1,41 +1,33 @@
 import { ref } from '@vue/runtime-dom'
-import generateLoremIpsum from './generateLoremIpsum'
 import getCurrentUser from '../composables/getCurrentUser'
 
 import { projectFirestore } from '../firebase/config'
-const error = ref(null)
-const sortedData = ref([])
 
-const getComments = async () => {
-    try {
-
-        const { getLorem } = generateLoremIpsum();
-        const { currentUser } = getCurrentUser()
-        const user = currentUser()
-
+const getComments = async (collection) => {
+    const error = ref(null)
+    const sortedData = ref([])
+        const { user } = getCurrentUser()
+        
         if (!user) {
             throw new Error('Unable to authenticate user at this time.')
         }
 
-        const collection = await projectFirestore.collection('comments').get()
-        sortedData.value = collection.docs.map((doc) => {
-            return {...doc.data(), id: doc.id}
+        const collections = projectFirestore.collection(collection)
+            .orderBy('createdAt', 'asc')
+
+        collections.onSnapshot((snap) => {
+            let results = []
+            snap.docs.forEach(doc => {
+                doc.data().createdAt && results.push({...doc.data(), id: doc.id})
+            })
+            sortedData.value = results
+        }, (err) => { 
+            console.log(err.message)
+            documents.value = null
+            error.value = 'Could not fetch comments'
         })
-        
-        if (sortedData.value.length === 0) {
-            sortedData.value =  await getLorem()
-            return sortedData.value
-        } 
-
-        return sortedData.value
-    } catch (err) {
-        error.value = err.message
-        console.log(error.value)
-    }
+        error.value = null
+        return {sortedData, error }
 }
 
-const useGetComments = () => {
-    return { error, getComments }
-}
-
-export default useGetComments
+export default getComments

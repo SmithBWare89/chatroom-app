@@ -8,9 +8,16 @@
 </template>
 
 <script>
+import getComments from '../composables/useGetComments'
+
 export default {
   name: "ChatView",
-  props: ["data"]
+  props: ["data"],
+  setup() {
+    const { sortedData, error } = getComments('comments')
+
+    return { error, sortedData}
+  }
 }
 </script>
 
