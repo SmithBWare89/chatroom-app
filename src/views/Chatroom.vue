@@ -12,31 +12,9 @@ import NewChat from '../components/NewChat.vue'
 import ChatView from '../components/ChatView.vue'
 import NavBar from '../components/NavBar.vue'
 
-// Import From Vue
-import { watch } from '@vue/runtime-core'
-import { useRouter } from 'vue-router'
-
-// Composables
-import getUser from '../composables/getCurrentUser'
-
-
 export default {
   name: "Chatroom",
-  components: { NewChat, ChatView, NavBar },
-  setup() {
-    const { user } = getUser()
-    const router = useRouter()
-    
-    watch(user, () => {
-      if (!user.value) {
-        router.push({name: 'Welcome'})
-      } else {
-        currentUserInfo.value = user.value
-      }
-    })
-
-    return { currentUserInfo }
-  }
+  components: { NewChat, ChatView, NavBar }
 }
 </script>
 
