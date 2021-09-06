@@ -2,20 +2,22 @@
   <div id="login">
     <h2>Login</h2>
     <form @submit.prevent="handleLogin">
-      <input type="email" v-model="email" placeholder="email" required />
       <input
-        type="password"
-        v-model="password"
-        placeholder="password"
+        type="email"
+        v-model="email"
+        placeholder="email"
         required
       />
-      <div class="error">{{ error }}</div>
+      <input 
+        type="password" 
+        v-model="password" 
+        placeholder="password" 
+        required 
+      />
+      <div class="errorMessage"> {{ errorMessage }} </div>
       <button>Login</button>
     </form>
-    <p>
-      Not registered?
-      <span class="switchForm" @click="switchForm">Sign Up!</span>
-    </p>
+    <p>Not registered? <span class="switchForm" @click="switchForm">Sign Up!</span></p>
   </div>
 </template>
 
@@ -27,23 +29,25 @@ import { useRouter } from 'vue-router'
 export default {
   name: "LoginForm",
   props: ['switchForm'],
-  setup(props, { emit }) {
+  setup() {
     const email = ref("");
     const password = ref("");
     const router = useRouter();
 
-    const { error, loginUser } = useLogin();
+    const { errorMessage, loginUser } = useLogin();
 
     const handleLogin = async () => {
       await loginUser(email.value, password.value)
-      if (!error.value) {
-        emit('login')
+      if (errorMessage.value === null) {
+        router.push({ name: 'Chatroom' })
       }
     }
 
-    return { email, password, handleLogin, error }
+    return { email, password, handleLogin, errorMessage };
+  },
+  methods: {
   }
-}
+};
 </script>
 
 <style>
@@ -81,4 +85,10 @@ input {
   outline: none;
 }
 
+ 
+.errorMessage {
+  color: red;
+  font-size: 10px;
+  padding-bottom: 10px;
+}
 </style>

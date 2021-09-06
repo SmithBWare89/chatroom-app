@@ -1,11 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Welcome from '../views/Welcome.vue'
-import Chatroom from '../views/Chatroom.vue'
 import { projectAuth } from '../firebase/config'
 
 const requireAuth = (to, from, next) => {
   // Grab the current user
-  let user = projectAuth.currentUser
+  const user = projectAuth.currentUser
   if(!user) {
     next({name: 'Welcome'})
   } else {
@@ -13,27 +12,16 @@ const requireAuth = (to, from, next) => {
   }
 }
 
-const requireNoAuth = (to, from, next) => {
-    // Grab the current user
-    let user = projectAuth.currentUser
-    if(user) {
-      next({name: 'Chatroom'})
-    } else {
-      next()
-    }
-}
-
 const routes = [
   {
     path: '/',
     name: 'Welcome',
-    component: Welcome,
-    beforeEnter: requireNoAuth
+    component: Welcome
   },
   {
     path: '/chatroom',
     name: 'Chatroom',
-    component: Chatroom,
+    component: () => import(/* webpackChunkName: "about" */ '../views/Chatroom.vue'),
     beforeEnter: requireAuth
   }
 ]

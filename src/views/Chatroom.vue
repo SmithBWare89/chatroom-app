@@ -1,34 +1,59 @@
 <template>
-  <div>
-    <NavBar />
-    <ChatView />
+    <NavBar :currentUserInfo ="currentUserInfo"/>
+    <ChatView :data="data" />
     <NewChat />
-  </div>
-
-    
 </template>
 
 <script>
-import NavBar from '../components/NavBar.vue'
+import { ref } from "@vue/reactivity"
+import { onMounted } from '@vue/runtime-core'
 import ChatView from '../components/ChatView.vue'
 import NewChat from '../components/NewChat.vue'
-import getUser from '../composables/getCurrentUser'
-import { watch } from '@vue/runtime-core'
+import NavBar from '../components/NavBar.vue'
+import getCurrentUser from '../composables/getCurrentUser'
+import generateLoremIpsum from '../composables/generateLoremIpsum'
 import { useRouter } from 'vue-router'
+import { projectFirestore } from '../firebase/config'
+
 
 export default {
-  name: 'Chatroom',
-  components: { NavBar, NewChat, ChatView },
+  name: "Chatroom",
+  components: { NavBar, ChatView, NewChat },
   setup() {
-    const { user } = getUser()
+    const data = ref([]);
+    const currentUserInfo = ref({})
     const router = useRouter()
+    const { errorMessage, user } = getCurrentUser();
+    const { getLorem } = generateLoremIpsum()
 
-    watch(user, () => {
-      if (!user.value) {
+    projectFirestore.collection('comments')
+      .orderBy('createdAt', 'asc')
+      .onSnapshot(async (snap) => {
+        data.value = snap.docs.map(doc => {
+          return {...doc.data(), id: doc.id}
+        })
+
+        if (data.value.length === 0) {
+          data.value = await getLorem()
+        }
+      })
+    
+    const handleGetUser = async () => {
+      if (errorMessage.value) {
         router.push({name: 'Welcome'})
+      } else {
+        currentUserInfo.value = user.value
       }
+    }
+
+
+
+    onMounted(async () => {
+      await handleGetUser()
     })
-  }
+
+    return { data, currentUserInfo };
+  },
 };
 </script>
 

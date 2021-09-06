@@ -9,7 +9,6 @@
       wrap="soft"
       @keypress.enter="sendComment"
     />
-    <div class="error">{{ error }}</div>
     <div class="charCount">
         Character Count: <span>{{ charCount }}</span>/180
     </div>
@@ -19,35 +18,25 @@
 <script>
 import { ref } from "@vue/reactivity";
 import { watchEffect } from "@vue/runtime-core";
-import getUser from '../composables/getCurrentUser'
-import {timestamp} from '../firebase/config'
 import addNewComment from '../composables/addNewComment'
 
 export default {
   name: "NewChat",
-  setup(props, {emit}) {
+  setup() {
     const charCount = ref(0);
     const message = ref("");
-    const { user } = getUser()
-    const { error, newComment } = addNewComment()
+    const { newComment } = addNewComment()
 
     watchEffect(() => {
       charCount.value = message.value.length;
     }, message.value.length);
 
     const sendComment = async () => {
-      const comment = {
-        name: user.value.displayName,
-        comment: message.value,
-        createdAt: timestamp()
-      }
-        await newComment(comment)
-        if(!error.value) {
-          message.value = ''
-        }
+        await newComment(message.value)
+        message.value = ''
     }
 
-    return { charCount, message, sendComment, error };
+    return { charCount, message, sendComment };
   },
 };
 </script>
