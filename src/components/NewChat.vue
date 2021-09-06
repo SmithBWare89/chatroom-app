@@ -18,22 +18,22 @@
 <script>
 import { ref } from "@vue/reactivity";
 import { watchEffect } from "@vue/runtime-core";
-import addNewMessage from '../composables/addNewMessage'
+import addNewComment from '../composables/addNewComment'
 
 export default {
   name: "NewChat",
   setup() {
     const charCount = ref(0);
     const message = ref("");
-    const { errorMessage, newMessage } = addNewMessage()
+    const { errorMessage, newComment } = addNewComment()
 
     watchEffect(() => {
       charCount.value = message.value.length;
     }, message.value.length);
 
-    const sendComment = (e) => {
-        e.preventDefault()
-        newMessage(message.value)
+    const sendComment = async () => {
+        const data = await newComment(message.value)
+        console.log(data)
         message.value = ''
     }
 
