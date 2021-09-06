@@ -2,22 +2,17 @@ import { ref } from '@vue/runtime-dom'
 import { projectAuth } from '../firebase/config'
 
 const errorMessage = ref(null)
+const user = ref({})
 
-const currentUser = async () => {
-    try {
-        const userInfo = await projectAuth.currentUser
-        if(!userInfo) {
-            throw new Error('Cannot find the user information!')
-        }
-        return {displayName: userInfo.displayName, email: userInfo.email}
-
-    } catch (error) {
-        errorMessage.value = error.value
+projectAuth.onAuthStateChanged(_user => {
+    if(!_user) {
+        errorMessage.value = 'Unable to authenticate user'
     }
+    user.value = _user
+})
+
+const handleGetUser = () => {
+    return { errorMessage, user }
 }
 
-const getCurrentUser = () => {
-    return { errorMessage, currentUser }
-}
-
-export default getCurrentUser
+export default handleGetUser

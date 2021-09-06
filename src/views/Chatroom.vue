@@ -23,11 +23,11 @@ export default {
     const data = ref([]);
     const currentUserInfo = ref({})
     const router = useRouter()
-    const { errorMessage, currentUser } = getCurrentUser();
+    const { errorMessage, user } = getCurrentUser();
     const { getLorem } = generateLoremIpsum()
 
     projectFirestore.collection('comments')
-      .orderBy('createdAt', 'desc')
+      .orderBy('createdAt', 'asc')
       .onSnapshot(async (snap) => {
         data.value = snap.docs.map(doc => {
           return {...doc.data(), id: doc.id}
@@ -42,7 +42,7 @@ export default {
       if (errorMessage.value) {
         router.push({name: 'Welcome'})
       } else {
-        currentUserInfo.value = await currentUser()
+        currentUserInfo.value = user.value
       }
     }
 
