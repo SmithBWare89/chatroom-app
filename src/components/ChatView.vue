@@ -7,6 +7,7 @@
         <span class="chatUsername">{{ comment.name }}</span>
         <span class="chatComment">{{ comment.comment }}</span>
       </div>
+    </div>
   </div>
 </template>
 
