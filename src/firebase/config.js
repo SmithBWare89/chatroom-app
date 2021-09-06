@@ -3,12 +3,12 @@ import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCJ4boUf81fQ30dqIgUhd6ypC_f408iq_A",
-  authDomain: "chat-example-811a7.firebaseapp.com",
-  projectId: "chat-example-811a7",
-  storageBucket: "chat-example-811a7.appspot.com",
-  messagingSenderId: "364434213427",
-  appId: "1:364434213427:web:3423d3262b336e979bf146"
+  apiKey: "AIzaSyCYRz_nlRv81UujnnSi5fUejcp9dUOKs4s",
+  authDomain: "chatroom-app-3cdd8.firebaseapp.com",
+  projectId: "chatroom-app-3cdd8",
+  storageBucket: "chatroom-app-3cdd8.appspot.com",
+  messagingSenderId: "998736242903",
+  appId: "1:998736242903:web:03265534f23f59a5a86892"
 };
 
 // init firebase
