@@ -8,7 +8,7 @@ const newComment = async (message) => {
     try {
         const { currentUser } = getCurrentUser()
         const user = await currentUser() 
-        console.log(user)  
+
         if (!user) {
             throw new Error('Unable to add message at this time. Please sign in again.')
         }
@@ -20,6 +20,8 @@ const newComment = async (message) => {
                 createdAt: timestamp()
             }
         )
+
+        return res
     } catch (error) {
         errorMessage.value = error.message
     }

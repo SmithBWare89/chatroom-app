@@ -22,14 +22,14 @@ import addNewComment from '../composables/addNewComment'
 
 export default {
   name: "NewChat",
-  setup() {
-    const charCount = ref(0);
-    const message = ref("");
+  setup(props, { emit }) {
+    const charCount = ref(0)
+    const message = ref('')
     const { newComment } = addNewComment()
 
     watchEffect(() => {
       charCount.value = message.value.length;
-    }, message.value.length);
+    }, message.value.length)
 
     const sendComment = async () => {
         await newComment(message.value)
@@ -37,7 +37,7 @@ export default {
     }
 
     return { charCount, message, sendComment };
-  },
+  }
 };
 </script>
 
