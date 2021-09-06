@@ -9,19 +9,14 @@
           placeholder="display name"
           required
         />
+        <input type="email" v-model="email" placeholder="email" required />
         <input
-          type="email"
-          v-model="email"
-          placeholder="email"
+          type="password"
+          v-model="password"
+          placeholder="password"
           required
         />
-        <input 
-          type="password" 
-          v-model="password" 
-          placeholder="password" 
-          required 
-        />
-<div class="error"> {{ error }} </div>
+        <div class="error" v-if="error">{{ error }}</div>
         <button>Signup</button>
       </form>
       <p>
@@ -37,11 +32,11 @@
 import useSignup from "../composables/signup";
 
 // Vue Import
-import { ref } from '@vue/reactivity';
+import { ref } from "@vue/reactivity";
 
 export default {
   name: "SignUpForm",
-  props: ['switchForm'],
+  props: ["switchForm"],
   setup(props, { emit }) {
     // Variables
     const displayName = ref("");
@@ -52,17 +47,16 @@ export default {
     // Async function to handle signup submittion
     const handleSubmit = async () => {
       // Send data to signup on server
-      await signup(email.value, password.value, displayName.value)
+      await signup(email.value, password.value, displayName.value);
       // If server returns no error then emit signup to Welcome.vue
       if (error.value === null) {
-        emit('signup')
+        emit("signup");
       }
-    }
+    };
 
-
-    return { displayName, password, email, handleSubmit, error }
-  }
-}
+    return { displayName, password, email, handleSubmit, error };
+  },
+};
 </script>
 
 <style>

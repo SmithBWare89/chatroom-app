@@ -9,7 +9,7 @@
       wrap="soft"
       @keypress.enter="sendComment"
     />
-    <div class="error">{{ error }}</div>
+    <div class="error" v-if="error">{{ error }}</div>
     <div class="charCount">Character Count: <span>{{ charCount }}</span>/180</div>
   </div>
 </template>

@@ -9,7 +9,7 @@
         placeholder="password"
         required
       />
-      <div class="error">{{ error }}</div>
+      <div class="error" v-if="error">{{ error }}</div>
       <button>Login</button>
     </form>
     <p>
