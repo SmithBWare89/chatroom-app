@@ -5,7 +5,7 @@ import { projectAuth } from '../firebase/config'
 
 const requireAuth = (to, from, next) => {
   // Grab the current user
-  const user = projectAuth.currentUser
+  let user = projectAuth.currentUser
   if(!user) {
     next({name: 'Welcome'})
   } else {
@@ -15,7 +15,7 @@ const requireAuth = (to, from, next) => {
 
 const requireNoAuth = (to, from, next) => {
   // Grab the current user
-  const user = projectAuth.currentUser
+  let user = projectAuth.currentUser
   if(user) {
     next({name: 'Chatroom'})
   } else {

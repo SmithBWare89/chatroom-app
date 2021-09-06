@@ -1,42 +1,31 @@
 <template>
-    <NavBar :currentUserInfo ="currentUserInfo"/>
-    <ChatView :data="data" />
+  <div>
+    <NavBar />
+    <ChatView />
     <NewChat />
+  </div>
 </template>
 
 <script>
-import { ref } from "@vue/reactivity"
-import { onMounted } from '@vue/runtime-core'
-import ChatView from '../components/ChatView.vue'
+// Components
 import NewChat from '../components/NewChat.vue'
+import ChatView from '../components/ChatView.vue'
 import NavBar from '../components/NavBar.vue'
-import getCurrentUser from '../composables/getCurrentUser'
-import generateLoremIpsum from '../composables/generateLoremIpsum'
+
+// Import From Vue
+import { watch } from '@vue/runtime-core'
 import { useRouter } from 'vue-router'
-import { projectFirestore } from '../firebase/config'
+
+// Composables
+import getUser from '../composables/getCurrentUser'
 
 
 export default {
   name: "Chatroom",
-  components: { NavBar, ChatView, NewChat },
+  components: { NewChat, ChatView, NavBar },
   setup() {
-    const data = ref([]);
-    const currentUserInfo = ref({})
+    const { user } = getUser()
     const router = useRouter()
-    const { errorMessage, user } = getCurrentUser();
-    const { getLorem } = generateLoremIpsum()
-
-    projectFirestore.collection('comments')
-      .orderBy('createdAt', 'asc')
-      .onSnapshot(async (snap) => {
-        data.value = snap.docs.map(doc => {
-          return {...doc.data(), id: doc.id}
-        })
-
-        if (data.value.length === 0) {
-          data.value = await getLorem()
-        }
-      })
     
     const handleGetUser = async () => {
       if (errorMessage.value) {
@@ -46,17 +35,18 @@ export default {
       }
     }
 
-
-
-    onMounted(async () => {
-      await handleGetUser()
+    watch(user, () => {
+      if (!user.value) {
+        router.push({name: 'Welcome'})
+      } else {
+        currentUserInfo.value = user.value
+      }
     })
 
-    return { data, currentUserInfo };
-  },
-};
+    return { data, currentUserInfo }
+  }
+}
 </script>
 
 <style>
-
 </style>
