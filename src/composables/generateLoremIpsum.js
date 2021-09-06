@@ -35,7 +35,7 @@ const getLorem = async () => {
             const randomLength = Math.floor(Math.random() * (8-1) + 1)
 
             await projectFirestore.collection('comments').add({
-                displayName: userArray.value[randomIndex],
+                username: userArray.value[randomIndex],
                 comment: newLorem.generateSentences(randomLength),
                 createdAt: timestamp()
             })

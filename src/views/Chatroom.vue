@@ -32,7 +32,7 @@ export default {
       }
       currentUserInfo.value = retrievedUserInfo
     }
-    
+
     watch(() => {
       data.value = sortedData.value
     }, sortedData)

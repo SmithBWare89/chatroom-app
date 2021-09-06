@@ -10,10 +10,7 @@
 <script>
 export default {
   name: "ChatView",
-  props: ["data"],
-  data() {
-    return {};
-  },
+  props: ["data"]
 };
 </script>
 
