@@ -6,12 +6,12 @@
 
 <script>
 import { ref } from "@vue/reactivity"
-import { LoremIpsum } from "lorem-ipsum"
 import { onMounted, watchEffect } from '@vue/runtime-core'
 import ChatView from '../components/ChatView.vue'
 import NewChat from '../components/NewChat.vue'
 import NavBar from '../components/NavBar.vue'
 import getCurrentUser from '../composables/getCurrentUser'
+import importComments from '../composables/importComments'
 import { useRouter } from 'vue-router'
 
 
@@ -20,19 +20,10 @@ export default {
   components: { ChatView, NewChat, NavBar },
   setup() {
     const data = ref([]);
-    const newLorem = new LoremIpsum({
-      sentencesPerParagraph: {
-        max: 2,
-        min: 1,
-      },
-      wordsPerSentence: {
-        max: 8,
-        min: 4,
-      },
-    });
     const currentUserInfo = ref({})
     const router = useRouter()
     const { errorMessage, currentUser } = getCurrentUser();
+    const { error, getComments } = importComments();
     
     const handleGetUser = async () => {
       const retrievedUserInfo = await currentUser()
@@ -42,8 +33,11 @@ export default {
       currentUserInfo.value = retrievedUserInfo
     }
 
+
+
     onMounted(() => {
       handleGetUser()
+      getComments()
     })    
 
     const userArray = ref([
