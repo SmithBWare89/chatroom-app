@@ -10,10 +10,7 @@
       @keypress.enter="sendComment"
     />
     <div class="error">{{ error }}</div>
-    <div class="charCount">
-      Character Count: <span>{{ charCount }}</span
-      >/180
-    </div>
+    <div class="charCount">Character Count: <span>{{ charCount }}</span>/180</div>
   </div>
 </template>
 
@@ -87,6 +84,7 @@ textarea {
   font-size: 10px;
   padding: 10px 10px 0px 10px;
   resize: none;
+  color: #22181c;
 }
 
 textarea::placeholder {
@@ -95,7 +93,7 @@ textarea::placeholder {
   -moz-osx-font-smoothing: grayscale;
   text-align: left;
   color: #22181c;
-  opacity: 50%;
+  opacity: 75%;
 }
 
 .charCount {
@@ -104,7 +102,7 @@ textarea::placeholder {
   padding-left: 15px;
   padding-bottom: 5px;
   font-size: 12px;
-  opacity: 50%;
+  opacity: 75%;
   color: #22181c;
 }
 
@@ -114,7 +112,6 @@ textarea::placeholder {
   }
   .charCount {
     font-size: 10px;
-    opacity: 60%;
   }
 }
 </style>
