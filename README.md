@@ -1,4 +1,4 @@
-# [Chatroom-App](http://www.github.com/SmithBWare89/chatroom-app)
+# [Chatroom-App](http://www.github.com/SmithBWare89/chatroom-app) -- [Deployed!](https://chatroom-app-3cdd8.web.app/chatroom)
 
 ## Description
 This is a simple chat applications built using Vue for the front end and Firebase for the hosting and back end. This was a part of an online course. Users are able to `login` or `signup` for the applications `which will generate a token` that's monitored throughout their time on the application. The `user token persists` even when navigating to the welcome page. The chatroom itself is blocked by requiring authorization from the user. Data entered into the comment area is automatically input into the chat window using the Firestore `onSnapshot` method which allows Firebase to return snapshots of collection data whenever a user inputs something new.
