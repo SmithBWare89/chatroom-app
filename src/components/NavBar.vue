@@ -1,31 +1,37 @@
 <template>
-  <div id="navContainer">
+  <nav id="navContainer">
       <div class="userInfo">
-          <span class="name">Hey there, {{ name }}!</span>
-          <span class="email">Currently logged in as {{ email }}</span>
+          <span class="name">Hey there, {{ user.displayName }}!</span>
+          <span class="email">Currently logged in as {{ user.email }}</span>
       </div>
       <div>
-          <button>Logout</button>
+          <button @click="handleLogout">Logout</button>
       </div>
-  </div>
+  </nav>
 </template>
 
 <script>
 import { ref } from '@vue/reactivity'
 import { watchEffect } from '@vue/runtime-core'
+import { useRouter } from 'vue-router'
+import getUser from '../composables/getCurrentUser'
+import useLogout from '../composables/signout'
+
 export default {
     name: 'NavBar',
-    props:['currentUserInfo'],
-    setup(props) {
-        const name = ref('')
-        const email = ref('')
+    setup() {
+        const { error, logout } = useLogout()
+        const router = useRouter()
+        const { user } = getUser()
 
-        watchEffect(() => {
-            name.value = props.currentUserInfo.displayName,
-            email.value = props.currentUserInfo.email
-        }, props.currentUserInfo)
+        const handleLogout = async () => {
+          await logout()
+          if(!error.value) {
+              console.log('User logged out')
+          }
+        }
 
-        return { name, email }
+        return { handleLogout, error, user }
     }
 }
 </script>

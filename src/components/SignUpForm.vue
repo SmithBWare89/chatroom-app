@@ -21,7 +21,7 @@
           placeholder="password" 
           required 
         />
-        <div class="errorMessage"> {{ errorMessage }} </div>
+        <div class="error"> {{ error }} </div>
         <button>Signup</button>
       </form>
       <p>
@@ -40,23 +40,23 @@ import { useRouter } from 'vue-router';
 export default {
   name: "SignUpForm",
   props: ['switchForm'],
-  setup() {
+  setup(props, { emit }) {
     const displayName = ref("");
     const password = ref("");
     const email = ref("");
     const router = useRouter();
 
-    const { errorMessage, signup } = useSignup();
+    const { error, signup } = useSignup();
 
     const handleSubmit = async () => {
       await signup(email.value, password.value, displayName.value)
-      if (errorMessage.value === null) {
-        router.push({name: 'Chatroom'})
+      if (error.value === null) {
+        emit('signup')
       }
     }
 
 
-    return { displayName, password, email, handleSubmit, errorMessage };
+    return { displayName, password, email, handleSubmit, error };
   },
   method: {
   }
