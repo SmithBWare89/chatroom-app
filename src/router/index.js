@@ -7,8 +7,9 @@ const requireAuth = (to, from, next) => {
   const user = projectAuth.currentUser
   if(!user) {
     next({name: 'Welcome'})
+  } else {
+    next()
   }
-  next()
 }
 
 const routes = [
