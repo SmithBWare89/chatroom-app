@@ -1,32 +1,18 @@
 import { ref } from "@vue/runtime-dom";
 import { projectFirestore, timestamp } from "../firebase/config";
-import getCurrentUser from './getCurrentUser'
 
-const errorMessage = ref(null)
+const error = ref(null)
 
-const newComment = async (message) => {
-    try {
-        const { currentUser } = getCurrentUser()
-        const user = await currentUser() 
-        console.log(user)  
-        if (!user) {
-            throw new Error('Unable to add message at this time. Please sign in again.')
-        }
-        
-        const res = await projectFirestore.collection('comments').add(
-            {
-                username: user.displayName,
-                comment: message,
-                createdAt: timestamp()
-            }
-        )
-    } catch (error) {
-        errorMessage.value = error.message
+const newComment = async (comment) => {
+    try {       
+       await projectFirestore.collection('comments').add(comment)
+    } catch (err) {
+        error.value = err.message
     }
 }
 
 const addNewComment = () => {
-    return { errorMessage, newComment }
+    return { error, newComment }
 }
 
 export default addNewComment

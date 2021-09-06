@@ -1,41 +1,31 @@
 import { ref } from '@vue/runtime-dom'
-import generateLoremIpsum from './generateLoremIpsum'
-import getCurrentUser from '../composables/getCurrentUser'
+import { watchEffect } from 'vue'
+import { projectFirestore } from '../firebase/config'
 
-import { projectAuth, projectFirestore } from '../firebase/config'
-const error = ref(null)
-const sortedData = ref([])
-
-const getComments = async () => {
-    try {
-
-        const { getLorem } = generateLoremIpsum();
-        const { currentUser } = getCurrentUser()
-        const user = currentUser()
-
-        if (!user) {
-            throw new Error('Unable to authenticate user at this time.')
-        }
-
-        const collection = await projectFirestore.collection('comments').get()
-        sortedData.value = collection.docs.map((doc) => {
-            return {...doc.data(), id: doc.id}
+const getComments = () => {
+    const error = ref(null)
+    const comments = ref([])
+    const collection = projectFirestore.collection('comments').orderBy('createdAt')
+    const unsub = collection.onSnapshot(snapshot => {
+        let results = []
+        snapshot.docs.forEach(doc => {
+            // Format the date and push to array
+            doc.data().createdAt && results.push({ ...doc.data(), id: doc.id })
         })
-        
-        if (sortedData.value.length === 0) {
-            sortedData.value =  await getLorem()
-            return sortedData.value
-        } 
+        comments.value = results
+        error.value = null
+    }, (err) => {
+        comments.value = null
+        error.value = 'Could not fetch data'
+    })
 
-        return sortedData.value
-    } catch (err) {
-        error.value = err.message
-        console.log(error.value)
-    }
+    watchEffect((onInvalidate) => {
+        //unsubscribe from the collection whenever we leave the chatroom
+        //By invoking unsub function we're able to unsubscribe whenever we leave the area
+        onInvalidate(() => unsub())
+    })
+
+    return { comments, error }
 }
 
-const useGetComments = () => {
-    return { error, getComments }
-}
-
-export default useGetComments
+export default getComments

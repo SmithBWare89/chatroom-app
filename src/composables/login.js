@@ -3,7 +3,7 @@ import { projectAuth } from '../firebase/config';
 
 // refs & signup outside of exported function
 // they don't need to be re-created every time we invoke useSignup
-const errorMessage = ref(null);
+const error = ref(null);
 
 const loginUser = async (email, password) => {
   errorMessage.value = null
@@ -11,19 +11,19 @@ const loginUser = async (email, password) => {
   try {
     const res = await projectAuth.signInWithEmailAndPassword(email, password)
     if (!res) {
-      throw new Error('Could not complete login')
+      throw new Error('Unable to log user in at this time.')
     }
-    errorMessage.value = null
+    error.value = null
     return res
   }
   catch(err) {
     console.log(err.message)
-    errorMessage.value = 'Incorrect login credentials';
+    error.value = err.message;
   }
 }
 
 const useLogin = () => {
-  return { errorMessage, loginUser }
+  return { error, loginUser }
 }
 
 export default useLogin
