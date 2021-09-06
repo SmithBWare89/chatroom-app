@@ -1,7 +1,6 @@
 import { LoremIpsum } from "lorem-ipsum"
 import { ref } from "vue";
-import { projectFirestore, projectAuth, timestamp } from '../firebase/config'
-import getCurrentUser from '../composables/getCurrentUser'
+import { projectFirestore, timestamp } from '../firebase/config'
 
 // Set Lorem Ipsum Parameters
 const newLorem = new LoremIpsum({
@@ -24,26 +23,18 @@ const error = ref(null)
 //  Lorem Ipsum Generator Function
 const getLorem = async () => {
     try {
-        // Get the current user info
-        const { currentUser } = getCurrentUser()
-        const user = await currentUser()      
-        if (!user) {
-            throw new Error('Unable to add message at this time. Please sign in again.')
-        }
-
-
-        for(let i = 0; i < 20; i++) {
-            const randomIndex = Math.floor(Math.random() * (userArray.value.length - 0) + 1)
-            const randomLength = Math.floor(Math.random() * (8-1) + 1)
-
+        for (let i = 0; i < 40; i++) {
+            const randomIndex = Math.floor(
+              Math.random() * userArray.value.length - 1
+            );
+            const randomLength = Math.floor(Math.random() * (8 - 1) + 1);
+            
             await projectFirestore.collection('comments').add({
                 username: userArray.value[randomIndex],
                 comment: newLorem.generateSentences(randomLength),
                 createdAt: timestamp()
             })
         }
-
-        //PROMISE FOR WAITING
 
         const data = await projectFirestore.collection('comments').get()
         error.value = null
@@ -52,9 +43,8 @@ const getLorem = async () => {
         })
 
         return generatedComments.value
-    } catch (error) {
+    } catch (er) {
         error.value = 'Unable to generate Lorem Ipsum!'
-        console.log(error.value)
     }
 }
 

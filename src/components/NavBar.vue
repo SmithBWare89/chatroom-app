@@ -5,7 +5,9 @@
           <span class="email">Currently logged in as {{ email }}</span>
       </div>
       <div>
-          <button>Logout</button>
+          <router-link :to="{name: 'Welcome', path: '/'}">
+            <button @click="handleSignout">Logout</button>
+          </router-link>
       </div>
   </div>
 </template>
@@ -13,19 +15,29 @@
 <script>
 import { ref } from '@vue/reactivity'
 import { watchEffect } from '@vue/runtime-core'
+import signout from '../composables/signout'
+import { useRouter } from 'vue-router'
+
 export default {
     name: 'NavBar',
     props:['currentUserInfo'],
     setup(props) {
         const name = ref('')
         const email = ref('')
+        const { signOutUser } = signout()
+        const router = useRouter()
 
         watchEffect(() => {
             name.value = props.currentUserInfo.displayName,
             email.value = props.currentUserInfo.email
         }, props.currentUserInfo)
 
-        return { name, email }
+        const handleSignout = async () => {
+            await signOutUser()
+            router.push({name: 'Welcome'})
+        }
+
+        return { name, email, handleSignout }
     }
 }
 </script>
