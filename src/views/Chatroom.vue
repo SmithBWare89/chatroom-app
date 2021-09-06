@@ -35,7 +35,7 @@ export default {
       }
     })
 
-    return { data, currentUserInfo }
+    return { currentUserInfo }
   }
 }
 </script>
