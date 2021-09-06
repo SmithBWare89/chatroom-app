@@ -26,12 +26,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #22181c;
-  max-width: 700px;
+  max-width: 500px;
   margin: 0 auto;
 }
 
 .app {
-  margin-top: 75px;
+  margin-top: 50px;
 }
 
 button {

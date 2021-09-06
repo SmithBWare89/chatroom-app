@@ -13,29 +13,22 @@
 <script>
 import handleSignout from "../composables/signout";
 import { useRouter } from "vue-router";
-import handleGetUser from '../composables/getCurrentUser'
-import { onMounted } from '@vue/runtime-core';
 
 export default {
   name: "NavBar",
-  props: ["currentUserInfo"],
-  setup() {
+  props: ["user"],
+  setup(props, { emit }) {
     const router = useRouter();
     const { signOutUser, error } = handleSignout()
-    const { errorMessage, getCurrentUser, user } = handleGetUser()
-    
-    onMounted(async () => {
-        await getCurrentUser()
-    })
-
+  
     const handleClick = async () => {
         await signOutUser()
         if(!error.value) {
-            console.log('user logged out')
+            emit('logout')
         }
     }
 
-    return { errorMessage, user, handleClick };
+    return { handleClick };
   },
 };
 </script>

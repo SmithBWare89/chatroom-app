@@ -4,22 +4,15 @@ import { projectAuth } from '../firebase/config'
 const errorMessage = ref(null)
 const user = ref({})
 
-const getCurrentUser = async () => {
-    try {
-        const userInfo = await projectAuth.currentUser
-        if(!userInfo) {
-            throw new Error('Cannot find the user information!')
-        }
-        errorMessage.value = null
-        user.value = {displayName: userInfo.displayName, email: userInfo.email}
-    } catch (err) {
-        errorMessage.value = err.message
-        console.log(errorMessage.value)
+projectAuth.onAuthStateChanged(_user => {
+    if(!_user) {
+        errorMessage.value = 'Unable to authenticate user'
     }
-}
+    user.value = _user
+})
 
 const handleGetUser = () => {
-    return { errorMessage, getCurrentUser, user }
+    return { errorMessage, user }
 }
 
 export default handleGetUser

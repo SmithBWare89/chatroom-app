@@ -35,7 +35,6 @@
 <script>
 import { ref } from '@vue/reactivity';
 import useSignup from "../composables/signup";
-import { useRouter } from 'vue-router';
 
 export default {
   name: "SignUpForm",
