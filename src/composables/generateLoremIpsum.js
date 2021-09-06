@@ -16,7 +16,9 @@ const newLorem = new LoremIpsum({
 
 // Username Array
 const userArray = ref(['TheMonkeyWA', 'RZayayaya', 'Hideki405', 'GodGiftedTalent', 'KnuckBuck756', 'RandomRandom', 'JustGregg', 'Smokey88', 'YouTrippinCraig'])
-const generatedComments = ([])
+const generatedComments = ([]);
+
+const error = ref(null)
 
 //  Lorem Ipsum Generator Function
 const getLorem = async () => {
@@ -40,13 +42,13 @@ const getLorem = async () => {
         }
 
         const data = await projectFirestore.collection('comments').get()
+        error.value = null
         generatedComments.value = data.docs.map(doc => {
             return {...doc.data(), id: doc.id}
         })
-
-        console.log(generatedComments)
     } catch (error) {
-        
+        error.value = 'Unable to generate Lorem Ipsum!'
+        console.log(error.value)
     }
 }
 

@@ -7,15 +7,15 @@ const sortedData = ref([])
 
 const getComments = async () => {
     try {
-        const { getLorem, generatedComments } = generateLoremIpsum();
 
+        const { getLorem, generatedComments } = generateLoremIpsum();
         const user = projectAuth.currentUser
 
         if (!user) {
             throw new Error('Unable to authenticate user at this time.')
         }
 
-        const collection = await projectFirestore.collection('comments').get()
+        let collection = await projectFirestore.collection('comments').get()
         sortedData.value = collection.docs.map((doc) => {
             return {...doc.data(), id: doc.id}
         })
@@ -25,13 +25,17 @@ const getComments = async () => {
             return generatedComments.value
         }
 
+        collection = await projectFirestore.collection('comments').get()
+        return sortedData.value = collection.docs.map((doc) => {
+            return {...doc.data(), id: doc.id}
+        })
     } catch (error) {
         console.log(error)
     }
 }
 
 const importComments = () => {
-    return { error, getComments }
+    return { error, getComments, sortedData }
 }
 
 export default importComments
