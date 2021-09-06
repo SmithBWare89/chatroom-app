@@ -2,51 +2,46 @@
   <div id="login">
     <h2>Login</h2>
     <form @submit.prevent="handleLogin">
+      <input type="email" v-model="email" placeholder="email" required />
       <input
-        type="email"
-        v-model="email"
-        placeholder="email"
+        type="password"
+        v-model="password"
+        placeholder="password"
         required
       />
-      <input 
-        type="password" 
-        v-model="password" 
-        placeholder="password" 
-        required 
-      />
-      <div class="errorMessage"> {{ errorMessage }} </div>
+      <div class="error">{{ error }}</div>
       <button>Login</button>
     </form>
-    <p>Not registered? <span class="switchForm" @click="switchForm">Sign Up!</span></p>
+    <p>
+      Not registered?
+      <span class="switchForm" @click="switchForm">Sign Up!</span>
+    </p>
   </div>
 </template>
 
 <script>
 import { ref } from "@vue/reactivity";
-import useLogin from '../composables/login'
-import { useRouter } from 'vue-router'
+import useLogin from "../composables/login";
+import { useRouter } from "vue-router";
 
 export default {
   name: "LoginForm",
-  props: ['switchForm'],
-  setup() {
+  props: ["switchForm"],
+  setup(props, { emit }) {
     const email = ref("");
     const password = ref("");
     const router = useRouter();
-
-    const { errorMessage, loginUser } = useLogin();
+    const { error, loginUser } = useLogin();
 
     const handleLogin = async () => {
-      await loginUser(email.value, password.value)
-      if (errorMessage.value === null) {
-        router.push({ name: 'Chatroom' })
+      await loginUser(email.value, password.value);
+      if (!error.value) {
+        emit("login");
       }
-    }
+    };
 
-    return { email, password, handleLogin, errorMessage };
+    return { email, password, handleLogin, error };
   },
-  methods: {
-  }
 };
 </script>
 
@@ -83,12 +78,5 @@ input {
   border-radius: 6px 6px;
   box-shadow: 2px 2px rgba(117, 119, 128, 0.5);
   outline: none;
-}
-
- 
-.errorMessage {
-  color: red;
-  font-size: 10px;
-  padding-bottom: 10px;
 }
 </style>

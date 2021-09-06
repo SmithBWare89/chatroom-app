@@ -1,16 +1,13 @@
 <template>
   <div class="app">
-    <!-- <NavBar /> -->
     <router-view />
   </div>
 </template>
 
 <script>
-import NavBar from "./components/NavBar.vue";
 
 export default {
   name: "App",
-  components: { NavBar },
 };
 </script>
 
@@ -26,13 +23,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #22181c;
-  max-width: 400px;
+  max-width: 500px;
   max-height: 300px;
   margin: 0 auto;
 }
 
 .app {
-  margin-top: 75px;
+  margin-top: 40px;
 }
 
 button {
@@ -53,6 +50,12 @@ button:hover {
 .switchForm {
   border-bottom: 1px solid #22181c;
   cursor: pointer;
+}
+
+.error {
+  color: red;
+  font-size: 10px;
+  padding-bottom: 10px;
 }
 
 @media screen and (max-width: 600px) {
