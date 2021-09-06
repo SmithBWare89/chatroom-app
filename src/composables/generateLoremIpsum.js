@@ -25,14 +25,14 @@ const error = ref(null)
 const getLorem = async () => {
     try {
         // Get the current user info
-        const { user, currentUser } = getCurrentUser()
-        await currentUser()      
-        if (!user.value) {
+        const { currentUser } = getCurrentUser()
+        const user = await currentUser()      
+        if (!user) {
             throw new Error('Unable to add message at this time. Please sign in again.')
         }
 
 
-        for(let i = 0; i < 10; i++) {
+        for(let i = 0; i < 20; i++) {
             const randomIndex = Math.floor(Math.random() * (userArray.value.length - 0) + 1)
             const randomLength = Math.floor(Math.random() * (8-1) + 1)
 
@@ -43,11 +43,15 @@ const getLorem = async () => {
             })
         }
 
+        //PROMISE FOR WAITING
+
         const data = await projectFirestore.collection('comments').get()
         error.value = null
         generatedComments.value = data.docs.map(doc => {
             return {...doc.data(), id: doc.id}
         })
+
+        return generatedComments.value
     } catch (error) {
         error.value = 'Unable to generate Lorem Ipsum!'
         console.log(error.value)

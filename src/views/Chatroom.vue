@@ -6,13 +6,14 @@
 
 <script>
 import { ref } from "@vue/reactivity"
-import { onMounted, watch } from '@vue/runtime-core'
+import { onMounted } from '@vue/runtime-core'
 import ChatView from '../components/ChatView.vue'
 import NewChat from '../components/NewChat.vue'
 import NavBar from '../components/NavBar.vue'
 import getCurrentUser from '../composables/getCurrentUser'
-import importComments from '../composables/importComments'
+import generateLoremIpsum from '../composables/generateLoremIpsum'
 import { useRouter } from 'vue-router'
+import { projectFirestore } from '../firebase/config'
 
 
 export default {
@@ -23,24 +24,32 @@ export default {
     const currentUserInfo = ref({})
     const router = useRouter()
     const { errorMessage, currentUser } = getCurrentUser();
-    const { error, getComments, sortedData } = importComments();
+    const { getLorem } = generateLoremIpsum()
+
+    projectFirestore.collection('comments')
+      .orderBy('createdAt', 'desc')
+      .onSnapshot(async (snap) => {
+        data.value = snap.docs.map(doc => {
+          return {...doc.data(), id: doc.id}
+        })
+
+        if (data.value.length === 0) {
+          data.value = await getLorem()
+        }
+      })
     
     const handleGetUser = async () => {
-      const retrievedUserInfo = await currentUser()
       if (errorMessage.value) {
-        router.push('/')
+        router.push({name: 'Welcome'})
+      } else {
+        currentUserInfo.value = await currentUser()
       }
-      currentUserInfo.value = retrievedUserInfo
     }
-    
-    watch(() => {
-      data.value = sortedData.value
-    }, sortedData)
+
 
 
     onMounted(async () => {
       await handleGetUser()
-      await getComments()
     })
 
     return { data, currentUserInfo };

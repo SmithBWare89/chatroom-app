@@ -25,15 +25,14 @@ export default {
   setup() {
     const charCount = ref(0);
     const message = ref("");
-    const { errorMessage, newComment } = addNewComment()
+    const { newComment } = addNewComment()
 
     watchEffect(() => {
       charCount.value = message.value.length;
     }, message.value.length);
 
     const sendComment = async () => {
-        const data = await newComment(message.value)
-        console.log(data)
+        await newComment(message.value)
         message.value = ''
     }
 
