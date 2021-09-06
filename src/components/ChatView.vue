@@ -8,12 +8,10 @@
 </template>
 
 <script>
-import { projectFirestore } from '../firebase/config'
-
 export default {
   name: "ChatView",
-  props: ["data"]
-}
+  props: ["data"],
+};
 </script>
 
 <style>
@@ -36,6 +34,6 @@ export default {
 }
 
 #chatComment {
-  font-size: 10px;
+    font-size: 10px;
 }
 </style>

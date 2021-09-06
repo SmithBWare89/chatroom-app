@@ -2,7 +2,7 @@ import { ref } from '@vue/runtime-dom'
 import generateLoremIpsum from './generateLoremIpsum'
 import getCurrentUser from '../composables/getCurrentUser'
 
-import { projectFirestore } from '../firebase/config'
+import { projectAuth, projectFirestore } from '../firebase/config'
 const error = ref(null)
 const sortedData = ref([])
 
