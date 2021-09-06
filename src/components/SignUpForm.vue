@@ -33,23 +33,27 @@
 </template>
 
 <script>
-import { ref } from '@vue/reactivity';
+// Composable
 import useSignup from "../composables/signup";
-import { useRouter } from 'vue-router';
+
+// Vue Import
+import { ref } from '@vue/reactivity';
 
 export default {
   name: "SignUpForm",
   props: ['switchForm'],
   setup(props, { emit }) {
+    // Variables
     const displayName = ref("");
     const password = ref("");
     const email = ref("");
-    const router = useRouter();
-
     const { error, signup } = useSignup();
 
+    // Async function to handle signup submittion
     const handleSubmit = async () => {
+      // Send data to signup on server
       await signup(email.value, password.value, displayName.value)
+      // If server returns no error then emit signup to Welcome.vue
       if (error.value === null) {
         emit('signup')
       }

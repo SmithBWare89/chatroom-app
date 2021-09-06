@@ -2,7 +2,12 @@
   <div id="chatView">
     <div v-if="error">{{ error }}</div>
     <div v-if="comments" class="comments" ref="commentRef">
-      <div v-for="comment in formattedComments" :ref="comment.id" :key="comment.id" class="comment">
+      <div
+        v-for="comment in formattedComments"
+        :ref="comment.id"
+        :key="comment.id"
+        class="comment"
+      >
         <span class="chatTimestamp">{{ comment.createdAt }} ago</span>
         <span class="chatUsername">{{ comment.name }}</span>
         <span class="chatComment">{{ comment.comment }}</span>
@@ -12,27 +17,40 @@
 </template>
 
 <script>
+// Composable
 import getComments from "../composables/useGetComments";
-import { formatDistanceToNow } from 'date-fns'
-import { computed, ref } from '@vue/reactivity';
-import { onUpdated } from '@vue/runtime-core';
+
+// Vue Imports
+import { formatDistanceToNow } from "date-fns";
+import { computed, ref } from "@vue/reactivity";
+import { onUpdated } from "@vue/runtime-core";
 
 export default {
   name: "ChatView",
-    setup() {
+  setup() {
+    // Variables
     const { comments, error } = getComments();
+
+    // Take the comments collection, map over each comment
+    // and return them with updated formatting
     const formattedComments = computed(() => {
       if (comments.value) {
-        return comments.value.map(comment => {
-          let time = formatDistanceToNow(comment.createdAt.toDate())
-          return {...comment, createdAt: time}
-        })
+        return comments.value.map((comment) => {
+          let time = formatDistanceToNow(comment.createdAt.toDate());
+          return { ...comment, createdAt: time };
+        });
       }
-    })
-    const commentRef = ref(null)
+    });
+    
+    // A reference to the commentsRef reference attribute
+    const commentRef = ref(null);
+
+    // Whenever the DOM is updated scroll to the bottom of the chat window
     onUpdated(() => {
-      commentRef.value.scrollTop = commentRef.value.scrollHeight
-    })
+      commentRef.value.scrollTop = commentRef.value.scrollHeight;
+    });
+
+    
     return { comments, error, formattedComments, commentRef };
   },
 };
@@ -46,10 +64,10 @@ export default {
 }
 
 .comment {
- margin: 18px 0;
- }
+  margin: 18px 0;
+}
 
- .chatTimestamp {
+.chatTimestamp {
   display: block;
   font-size: 10px;
   color: #757780;
@@ -66,7 +84,7 @@ export default {
 }
 .comments {
   max-height: 300px !important;
-  overflow: auto; 
+  overflow: auto;
 }
 /* Hide scrollbar for Chrome, Safari and Opera */
 .comments::-webkit-scrollbar {
@@ -74,7 +92,7 @@ export default {
 }
 /* Hide scrollbar for IE, Edge and Firefox */
 .comments {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 </style>

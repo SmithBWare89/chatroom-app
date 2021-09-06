@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { useRouter } from "vue-router";
+// Composables
 import getUser from "../composables/getCurrentUser";
 import useLogout from "../composables/signout";
 
@@ -19,14 +19,11 @@ export default {
   name: "NavBar",
   setup() {
     const { error, logout } = useLogout();
-    const router = useRouter();
     const { user } = getUser();
 
+    // Async function to handle logout button click
     const handleLogout = async () => {
       await logout();
-      if (!error.value) {
-        console.log("User logged out");
-      }
     };
 
     return { handleLogout, error, user };

@@ -27,14 +27,6 @@ export default {
     const { user } = getUser()
     const router = useRouter()
     
-    const handleGetUser = async () => {
-      if (errorMessage.value) {
-        router.push({name: 'Welcome'})
-      } else {
-        currentUserInfo.value = user.value
-      }
-    }
-
     watch(user, () => {
       if (!user.value) {
         router.push({name: 'Welcome'})

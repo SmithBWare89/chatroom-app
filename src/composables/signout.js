@@ -5,6 +5,7 @@ const error = ref(null)
 
 const logout = async () => {
     try {
+        // Sign out using Firebase function
         await projectAuth.signOut()
     } catch (err) {
         error.value = err.message

@@ -20,19 +20,23 @@
 </template>
 
 <script>
-import { ref } from "@vue/reactivity";
+// Composable
 import useLogin from "../composables/login";
-import { useRouter } from "vue-router";
+
+// Vue Imports
+import { ref } from "@vue/reactivity";
 
 export default {
   name: "LoginForm",
   props: ["switchForm"],
   setup(props, { emit }) {
+    // Variables
     const email = ref("");
     const password = ref("");
-    const router = useRouter();
     const { error, loginUser } = useLogin();
 
+    // Pass the email and password to the login composable
+    // If there is no error emit 'login' to Welcome.vue
     const handleLogin = async () => {
       await loginUser(email.value, password.value);
       if (!error.value) {

@@ -1,5 +1,6 @@
 <template>
   <div class="app">
+    <!-- All app data will show in router-view -->
     <router-view />
   </div>
 </template>
@@ -7,6 +8,7 @@
 <script>
 
 export default {
+  // Application entry point
   name: "App",
 };
 </script>

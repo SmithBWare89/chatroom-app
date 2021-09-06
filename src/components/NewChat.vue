@@ -18,31 +18,46 @@
 </template>
 
 <script>
+// Composables
+import addNewComment from "../composables/addNewComment";
+import getUser from "../composables/getCurrentUser";
+
+// Vue Imports
 import { ref } from "@vue/reactivity";
 import { watchEffect } from "@vue/runtime-core";
-import getUser from "../composables/getCurrentUser";
+
+// Firebase Config Export
 import { timestamp } from "../firebase/config";
-import addNewComment from "../composables/addNewComment";
 
 export default {
   name: "NewChat",
   setup() {
+    // Variables
     const charCount = ref(0);
     const message = ref("");
     const { user } = getUser();
     const { error, newComment } = addNewComment();
 
+    // Watches for change in comment length and updates character count
+    // At the bottom of the input
     watchEffect(() => {
       charCount.value = message.value.length;
     }, message.value.length);
 
+
+    // Async function to send data to server
     const sendComment = async () => {
+      // Create context object of comment data and user infor
       const comment = {
         name: user.value.displayName,
         comment: message.value,
         createdAt: timestamp(),
       };
+
+      // Send data to be added
       await newComment(comment);
+
+      // If there is no error then reset the chat input to blank
       if (!error.value) {
         message.value = "";
       }
