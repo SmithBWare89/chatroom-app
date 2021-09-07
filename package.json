@@ -5,8 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "watch": "json-server --watch data/db.json",
-    "deploy": "npm run build && firebase deploy"
+    "watch": "json-server --watch data/db.json"
   },
   "dependencies": {
     "core-js": "^3.6.5",
