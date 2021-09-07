@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="chatroom">
     <NavBar />
     <ChatView />
     <NewChat />
@@ -19,4 +19,10 @@ export default {
 </script>
 
 <style>
+@media screen and (max-width: 600px) {
+  .chatroom {
+    max-width: 300px;
+    max-height: 400px;
+  }
+}
 </style>
