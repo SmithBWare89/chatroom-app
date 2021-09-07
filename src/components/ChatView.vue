@@ -80,7 +80,8 @@ export default {
 }
 
 .comments {
-  max-height: 400px;
+  max-height: 500px;
+  width: 100%;
   overflow: auto;
 }
 /* Hide scrollbar for Chrome, Safari and Opera */
@@ -95,7 +96,7 @@ export default {
 
 @media screen and (max-width: 600px) {
   .comments {
-    max-height: 300px;
+    max-height: 400px;
   }
 }
 </style>

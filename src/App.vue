@@ -25,8 +25,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #22181c;
-  max-width: 500px;
-  max-height: 400px;
   margin: 0 auto;
 }
 
