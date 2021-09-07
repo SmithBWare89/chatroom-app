@@ -7,7 +7,7 @@ const getComments = () => {
     const comments = ref([])
 
     // Grab current collection from Firebase
-    const collection = projectFirestore.collection('comments').orderBy('createdAt')
+    const collection = projectFirestore.collection('comments').orderBy('createdAt').limit(30)
 
     // Set up continuously getting snapshots of new data from Firebase
     // Set to variable to be able to invoke it and stop snapshots from coming
