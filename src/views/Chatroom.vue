@@ -21,8 +21,8 @@ export default {
 <style>
 @media screen and (max-width: 600px) {
   .chatroom {
-    max-width: 300px;
-    max-height: 400px;
+    max-width: 500px;
+    margin: 0 auto;
   }
 }
 </style>

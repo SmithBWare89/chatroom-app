@@ -81,7 +81,6 @@ export default {
 
 .comments {
   max-height: 500px;
-  width: 100%;
   overflow: auto;
 }
 /* Hide scrollbar for Chrome, Safari and Opera */
