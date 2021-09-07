@@ -81,7 +81,7 @@ textarea {
   border-radius: 10px 10px;
   outline: none;
   border: none;
-  font-size: 10px;
+  font-size: 12px;
   padding: 10px 10px 0px 10px;
   resize: none;
   color: #22181c;
