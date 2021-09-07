@@ -61,6 +61,7 @@ export default {
   padding: 5px 20px 5px 20px;
   background: #dbd4d3;
   text-align: left;
+  font-size: 12px;
 }
 
 .comment {
@@ -74,14 +75,10 @@ export default {
 }
 
 .chatUsername {
-  font-size: 10px;
   font-weight: 800;
   margin-right: 6px;
 }
 
-.chatComment {
-  font-size: 10px;
-}
 .comments {
   max-height: 400px;
   overflow: auto;
