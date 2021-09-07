@@ -1,12 +1,12 @@
 <template>
   <div id="chatInput">
     <textarea
-      placeholder="Enter new comments here and press enter to submit!"
       required
       autofocus="true"
       maxlength="180"
       v-model="message"
       wrap="soft"
+      placeholder="Enter new comments here and press enter to submit!"
       @keypress.enter="sendComment"
     />
     <div class="error" v-if="error">{{ error }}</div>
@@ -89,11 +89,8 @@ textarea {
 
 textarea::placeholder {
   font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   text-align: left;
   color: #22181c;
-  opacity: 75%;
 }
 
 .charCount {
@@ -102,7 +99,6 @@ textarea::placeholder {
   padding-left: 15px;
   padding-bottom: 5px;
   font-size: 12px;
-  opacity: 75%;
   color: #22181c;
 }
 
